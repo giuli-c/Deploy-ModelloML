@@ -1,0 +1,3 @@
+dataset: "cardiffnlp/tweet_sentiment_multilingual"
+model_path: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+output_model: "models/sentiment_model_updated.ftz"
