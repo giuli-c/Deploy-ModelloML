@@ -1,9 +1,21 @@
-import fasttext
+from src.model import Model
 
 class SentimentPredictor:
-    def __init___(self, model_path="cardiffnlp/twitter-roberta-base-sentiment-latest"):
-        self.model = fasttext.load_model(model_path)
+    """
+    Classe per la predizione del sentiment usando FastText.
+    """
+    def __init___(self, model=None):
+        """
+        Inizializza il modello per la predizione.
+        """
+        self.model = Model().model
 
     def predict(self, text):
-        prediction = sel.model.predict(text)
-        return prediction[0][0]
+        """
+        Esegue una predizione sul testo dato.
+        """
+        if not self.model:
+            raise RuntimeError("Il modello non è caricato. Esegui addestramento o carica un modello esistente.")
+        
+        label, prob = self.model.predict(text)
+        return {"sentiment": label[0], "confidence": prob[0]}

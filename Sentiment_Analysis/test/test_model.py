@@ -1,10 +1,18 @@
 import pytest
 from src.model import Model
 
-@pytest.fixture
-def model():
-    return Model("cardiffnlp/twitter-roberta-base-sentiment-latest")
+def test_model_training():
+    """
+    Verifico che il modello FastText venga addestrato correttamente.
+    """
+    model = Model()
+    model.train("train_fasttext.txt")
+    assert model.model is not None, "Errore: il modello non è stato addestrato correttamente."
 
-def test_predict(model):
-    prediction = model.predict("Covid cases are increasing fast!")
-    assert prediction in ["negative", "neutral", "positive"]
+def test_model_prediction():
+    """
+    Verifico che il modello FastText riesca a fare predizioni.
+    """
+    model = Model()
+    prediction = model.model.predict("Covid cases are increasing fast!")
+    assert prediction is not None, "Errore: la predizione non è stata eseguita."

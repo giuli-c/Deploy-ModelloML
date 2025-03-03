@@ -1,3 +1,10 @@
 dataset: "cardiffnlp/tweet_sentiment_multilingual"
-model_path: "cardiffnlp/twitter-roberta-base-sentiment-latest"
-output_model: "models/sentiment_model_updated.ftz"
+dataset_lang: "italian"
+
+model:
+  pre_trained: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+  fasttext_model: "models/sentiment_model_updated.ftz"
+
+mlflow:
+  tracking_uri: "http://mlflow:5000"
+  experiment_name: "SentimentAnalysis"
