@@ -1,6 +1,7 @@
 import fasttext
 import mlflow
 import mlflow.pyfunc
+import logging
 import os
 
 # Configurazione del logging

@@ -3,3 +3,4 @@ fasttext
 fastapi
 pydantic
 mlflow
+logging
