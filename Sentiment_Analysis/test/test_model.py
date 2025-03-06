@@ -1,3 +1,8 @@
+import sys 
+import os
+# Aggiungo il percorso della cartella principale al PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import pytest
 from src.model import Model
 
