@@ -40,19 +40,19 @@ jobs:
 
     # Costruisce i container con Docker Compose
     - name: Build and run Docker Compose
-        run: |
+      run: |
           docker-compose build
           docker-compose up -d
 
     # Assicura che il server MLflow sia attivo
     - name: Verify MLflow service is running
-        run: curl -f http://localhost:5000 || exit 1
+      run: curl -f http://localhost:5000 || exit 1
 
     # Esegue il training e registra il modello in MLflow
     - name: Train model and log to MLflow
-        run: docker-compose exec api python train.py
+      run: docker-compose exec api python train.py
 
     # Avvia l’API FastAPI per servire il modello
     - name: Deploy API service
-        run: docker-compose up -d api
+      run: docker-compose up -d api
       
