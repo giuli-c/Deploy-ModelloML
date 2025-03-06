@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests
         working-directory: Sentiment_Analysis/test
-        run: pytest 
+        run: pytest test
 
   build:
     needs: test
