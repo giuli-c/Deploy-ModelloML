@@ -1,0 +1,58 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: CI/CD SentimentAnalisys
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  # Installa dipendenze e esegue i test con pytest
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest tests/
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Costruisce i container con Docker Compose
+    - name: Build and run Docker Compose
+        run: |
+          docker-compose build
+          docker-compose up -d
+
+    # Assicura che il server MLflow sia attivo
+    - name: Verify MLflow service is running
+        run: curl -f http://localhost:5000 || exit 1
+
+    # Esegue il training e registra il modello in MLflow
+    - name: Train model and log to MLflow
+        run: docker-compose exec api python train.py
+
+    # Avvia l’API FastAPI per servire il modello
+    - name: Deploy API service
+        run: docker-compose up -d api
+      
