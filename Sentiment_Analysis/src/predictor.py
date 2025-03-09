@@ -4,7 +4,7 @@ class SentimentPredictor:
     """
     Classe per la predizione del sentiment usando FastText.
     """
-    def __init___(self, model=None):
+    def __init__(self, model=None):
         """
         Inizializza il modello per la predizione.
         """
