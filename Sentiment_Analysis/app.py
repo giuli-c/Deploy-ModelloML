@@ -6,21 +6,39 @@ from src.predictor import SentimentPredictor
 
 app = FastAPI()
 
-# Crea le metriche Prometheus
+# Creazione delle metriche Prometheus
 REQUESTS = Counter("total_requests", "Numero totale di richieste ricevute")
-LATENCY = Summary("request_latency_seconds", "Tempo di risposta in secondi")
 SENTIMENT_COUNT = Counter("sentiment_predictions", "Numero di predizioni fatte", ["sentiment"])
 
+# Creo un'istanza della classe SentimentPredictor
+predictor = SentimentPredictor()
 
-class TextInput(BaseModel):
-    text: str
+# Endpoint di test
+@app.get("/")
+async def home():
+    return {"message": "API Sentiment Analysis con FastAPI"}
 
-@app.post("/predict/")
-def predict(input: TextInput):
-    """
-    Endpoint per ottenere il sentiment di un testo.
-    """
-    return predict(input.text)
+# Endpoint per la predizione
+@app.post("/predict")
+async def predict(request: Request):
+    REQUESTS.inc()  # Incremento il contatore di richieste
+
+    data = await request.json()
+    text = data.get("text", "")
+
+    if not text:
+        return {"error": "Nessun testo fornito"}
+
+    sentiment = predictor.predict(text)
+    SENTIMENT_COUNT.labels(sentiment=sentiment["sentiment"]).inc()  # Registro il sentiment
+    
+    return sentiment
+
+# Questo esporta le metriche su /metrics, che Prometheus raccoglierà ogni tot secondi.
+@app.get("/metrics")
+async def metrics():
+    """Endpoint per Prometheus"""
+    return generate_latest()
 
 if __name__ == "__main__":
     import uvicorn
