@@ -21,6 +21,6 @@ class SentimentPredictor:
         # PRIMA: Creava un array senza copiare obj - Se obj non era già un array NumPy, veniva fatta una conversione automatica - Se obj non poteva essere usato direttamente, NumPy faceva una copia senza generare errori
         # ORA: NumPy non copia più obj se non è già un array compatibile. Se è necessario copiare, invece di farlo automaticamente, genera un errore.
         # >>>> Rimuozione di newline e spazi extra
-        text = text.strip().replace("\n", " ")
+        #text = text.strip().replace("\n", " ")
 
         return {"sentiment": label[0], "confidence": prob[0]}

@@ -4,3 +4,4 @@ fastapi
 pydantic
 mlflow
 logging
+numpy==1.26.4
