@@ -11,7 +11,7 @@ class Model:
     """
     Classe per la gestione del modello: addestramento e caricamento.
     """
-    def __init__(self, model_path=None):
+    def __init__(self, F=None):
         """
         Inizializza il modello. Se esiste un modello pre-addestrato, lo carica.
         """
