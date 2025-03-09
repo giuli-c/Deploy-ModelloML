@@ -14,11 +14,11 @@ class Model:
     # Directory del progetto
     root_dir = os.path.abspath(os.path.dirname(__file__))
 
-    def __init__(self, model_path=root_dir&"models/fasttext_sentiment.bin"):
+    def __init__(self, model_path=None):
         """
         Inizializza il modello. Se esiste un modello pre-addestrato, lo carica.
         """
-        self.model_path = model_path
+        self.model_path = model_path or os.path.join(self.root_dir, "models", "fasttext_sentiment.bin")
         self.model = None
 
         if os.path.exists(self.model_path):
