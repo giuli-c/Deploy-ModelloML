@@ -1,11 +1,16 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
+from prometheus_client import Counter, Summary, generate_latest
+import time
+from src.model import Model
 from src.predictor import SentimentPredictor
 
 app = FastAPI()
 
-# Caricamento del modello
-predictor = SentimentPredictor()
+# Crea le metriche Prometheus
+REQUESTS = Counter("total_requests", "Numero totale di richieste ricevute")
+LATENCY = Summary("request_latency_seconds", "Tempo di risposta in secondi")
+SENTIMENT_COUNT = Counter("sentiment_predictions", "Numero di predizioni fatte", ["sentiment"])
+
 
 class TextInput(BaseModel):
     text: str

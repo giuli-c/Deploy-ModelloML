@@ -3,6 +3,7 @@ import sys
 import os
 import subprocess
 import pandas as pd
+import mlflow
 
 # Aggiungo il percorso della cartella principale al PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -69,6 +70,25 @@ def test_load_model(prepare_training_data):
     model.load_model()
     
     assert model.model is not None, "Errore: Il modello non è stato caricato correttamente."
+
+def test_mlflow_registration(prepare_training_data):
+    """
+    Testa se il modello viene registrato correttamente in MLflow.
+    """
+    train_file, model_file = prepare_training_data
+
+    # Verifica se l'esperimento esiste in MLflow
+    client = mlflow.tracking.MlflowClient()
+    experiment = client.get_experiment_by_name("SentimentAnalysis")
+
+    assert experiment is not None, "Errore: l'esperimento SentimentAnalysis non esiste in MLflow!"
+
+    # Verifica se è stato registrato un run in MLflow
+    runs = client.search_runs(experiment.experiment_id)
+    assert len(runs) > 0, "Errore: nessun run trovato in MLflow per SentimentAnalysis!"
+
+    print("Test superato: il modello è stato registrato in MLflow con successo!")
+
 
 def test_prediction(prepare_training_data):
     """

@@ -11,7 +11,10 @@ class Model:
     """
     Classe per la gestione del modello: addestramento e caricamento.
     """
-    def __init__(self, model_path="models/fasttext_sentiment.bin"):
+    # Directory del progetto
+    root_dir = os.path.abspath(os.path.dirname(__file__))
+
+    def __init__(self, model_path=root_dir&"models/fasttext_sentiment.bin"):
         """
         Inizializza il modello. Se esiste un modello pre-addestrato, lo carica.
         """
