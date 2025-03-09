@@ -11,7 +11,7 @@ label_map = PreprocessData.mapping_label()
 train_df["label"] = train_df["label"].map(label_map)
 
 # Salvo il dataset nel formato richiesto da FastText
-train_df[["label", "text"]].to_csv("train_fasttext.txt", sep=" ", index=False, header=False, quoting=3)
+train_df[["label", "text"]].to_csv("train_fasttext.txt", sep=" ", index=False, header=False)
 
 # Addestro il modello
 model = Model()

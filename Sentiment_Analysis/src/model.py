@@ -39,7 +39,7 @@ class Model:
             if self.model:
                 os.makedirs("models", exist_ok=True)
                 self.model.save_model(self.model_path)
-                logging.info(f"Modello addestrato e salvato in {output_model}")
+                logging.info(f"Modello addestrato e salvato in {self.model_path}")
                 
                 # Registrazione del modello in MLflow
                 mlflow.log_param("dataset", data_path)
