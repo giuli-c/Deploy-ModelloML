@@ -16,7 +16,7 @@ class Model:
         Inizializza il modello. Se esiste un modello pre-addestrato, lo carica.
         """
         # Directory del progetto
-        root_dir = os.path.abspath(os.path.dirname(__file__), "..")
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
         self.model_path = model_path or os.path.join(self.root_dir, "models", "fasttext_sentiment.bin")
         self.model = None
