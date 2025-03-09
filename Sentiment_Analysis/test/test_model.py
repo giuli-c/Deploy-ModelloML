@@ -27,7 +27,9 @@ def prepare_training_data():
 
     # Se il modello non esiste, viene eseguito train.py
     if not os.path.exists(model_file):
+        print("Eseguo il train.py per generare il modello...")
         result = subprocess.run(["python", train_script], capture_output=True, text=True)
+        print(f"Output Train.py:\n{result.stdout}")
         assert result.returncode == 0, f"Train.py ha fallito: {result.stderr}"
 
     # Verifico che i file siano stati creati
