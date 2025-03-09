@@ -14,8 +14,5 @@ class SentimentPredictor:
         """
         Esegue una predizione sul testo dato.
         """
-        if not self.model:
-            raise RuntimeError("Il modello non è caricato. Esegui addestramento o carica un modello esistente.")
-        
         label, prob = self.model.predict(text)
         return {"sentiment": label[0], "confidence": prob[0]}

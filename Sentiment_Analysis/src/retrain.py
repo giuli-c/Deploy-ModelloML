@@ -21,7 +21,7 @@ def retrain():
 
     # Retrain del modello
     model = Model()
-    train_model("train_fasttext.txt")
+    model.train("train_fasttext.txt")
 
 if __name__ == "__main__":
     retrain()

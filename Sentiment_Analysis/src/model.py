@@ -29,7 +29,7 @@ class Model:
         Addestra il modello su un dataset e lo salvo.
         """
         if not os.path.exists(data_path):
-            raise FileNotFoundError(f"Il dataset {data_path} non esiste.")
+            logging.warning(f"Il dataset {data_path} non esiste.")
         
         mlflow.set_experiment("SentimentAnalysis")
         with mlflow.start_run():
@@ -58,7 +58,5 @@ class Model:
                 logging.info(f"Modello caricato con successo da {self.model_path}")
             except Exception as e:
                 logging.error(f"Errore nel caricamento del modello: {e}")
-                raise RuntimeError("Caricamento del modello fallito.")
         else:
             logging.error(f"Il file {self.model_path} non esiste. Impossibile caricare il modello.")
-            raise FileNotFoundError("Caricamento del modello fallito.")
