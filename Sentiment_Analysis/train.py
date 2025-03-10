@@ -1,6 +1,7 @@
 from src.data_loader import DataLoader
 from src.model import Model
 from src.preprocess_data import PreprocessData
+from src.load_model import LoadModel
 import os
 
 # Directory del progetto
@@ -28,4 +29,6 @@ else:
 # Addestro il modello
 model = Model()
 result = model.train(train_file_path)
+
+
 
