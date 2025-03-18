@@ -3,7 +3,7 @@ import os
 
 class LoadConfig:
     def __init__():
-        self.config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        self.config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", config_file))
 
     def load_config():
         try:

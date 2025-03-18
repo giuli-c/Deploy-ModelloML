@@ -18,4 +18,4 @@ class PreprocessData:
         """
         Restituisce la mappatura delle etichette per FastText.
         """
-        return {0: "__label__negativo", 1: "__label__neutro", 2: "__label__positivo"}
+        return {0: "negative", 1: "neutral", 2: "positive"}
