@@ -64,3 +64,5 @@ class TrainerManager:
             callbacks=callbacks
         )
         trainer.train()
+
+        return model
