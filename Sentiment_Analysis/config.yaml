@@ -2,6 +2,13 @@ dataset: "cardiffnlp/tweet_sentiment_multilingual"
 dataset_lang: "italian"
 model:
   pre_trained: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+training: {
+         output_dir: "./results",
+         num_train_epochs: 20,
+         batch_size: 8,
+         early_stopping: true,
+         early_stopping_patience: 2
+}
 mlflow:
   tracking_uri: "http://mlflow:5000"
   experiment_name: "SentimentAnalysis"
