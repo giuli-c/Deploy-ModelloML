@@ -4,7 +4,6 @@ class DataLoader:
     """
     Classe usata per caricare il dataset.
     """
-
     def __init__(self, dataset_name="cardiffnlp/tweet_sentiment_multilingual"):
         self.dataset_name = dataset_name
 
