@@ -1,4 +1,4 @@
-from trasformers import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
 
 class LoadModel:
     def __init__(self, model_name=None):

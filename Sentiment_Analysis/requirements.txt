@@ -1,5 +1,5 @@
 datasets
-fasttext
+transformers
 fastapi
 pydantic
 mlflow

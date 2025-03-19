@@ -14,4 +14,5 @@ class DataLoader:
         Ritornano due datafram: train e test.
         """
         dataset = load_dataset(self.dataset_name, "italian")
-        return dataset["train"].to_pandas(), dataset["test"].to_pandas()
+        # Faccio ritornare un oggetto dataset HuggingFace, utili per fare il training
+        return dataset["train"], dataset["test"]
