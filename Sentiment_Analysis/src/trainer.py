@@ -3,6 +3,7 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 import configparser
 from datasets import load_dataset
 from preprocess_data import PreprocessData
+from load_config import LoadConfig
 from huggingface_hub import login
 import os
 
@@ -18,9 +19,9 @@ class AccuracyThresholdCallback(TrainerCallback):
         return control
 
 class SentimentTrainer:
-    def __init__(self, config):        
-        self.config = configparser.ConfigParser()
-        self.config.read(config_file)
+    def __init__(self, config):
+        self.config_loader = LoadConfig("Sentiment_Analysis/config.yaml")
+        self.config = config_loader.load_config()
 
         login(token=os.environ["HF_TOKEN"])
 
