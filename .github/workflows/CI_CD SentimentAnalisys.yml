@@ -13,6 +13,9 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
@@ -33,11 +36,4 @@ jobs:
     
     - name: Run model training
       run: |
-        python src/train_manager.py
-
-    - name: Upload model artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: trained-model
-        path: model/
-
+        python trainer.py

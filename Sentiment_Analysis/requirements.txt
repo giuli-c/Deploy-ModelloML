@@ -1,8 +1,5 @@
 datasets
 transformers
-fastapi
-pydantic
-mlflow
-logging
-numpy==1.26.4
-tweepy
+huggingface_hub
+scikit-learn
+configparser

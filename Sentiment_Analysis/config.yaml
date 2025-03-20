@@ -4,7 +4,7 @@ model:
   pre_trained: "cardiffnlp/twitter-roberta-base-sentiment-latest"
 training: {
          output_dir: "./results",
-         num_train_epochs: 100,
+         num_train_epochs: 2,
          batch_size: 8,
          early_stopping: true,
          early_stopping_patience: 2
