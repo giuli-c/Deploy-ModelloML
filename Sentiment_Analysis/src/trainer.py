@@ -4,6 +4,7 @@ import configparser
 from datasets import load_dataset
 from preprocess_data import PreprocessData
 from load_config import LoadConfig
+from load_model import LoadModel
 from huggingface_hub import login
 import os
 
@@ -25,13 +26,12 @@ class SentimentTrainer:
 
         login(token=os.environ["HF_TOKEN"])
 
-        self.dataset = load_dataset("cardiffnlp/tweet_sentiment_multilingual", "italian")
-
-        self.model_name = self.config["model"].get("pre_trained", "cardiffnlp/twitter-roberta-base-sentiment-latest")
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-        #config = AutoConfig.from_pretrained(self.model_name)
-        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
-
+        self.data_loader = DataLoader(config["dataset"])
+        self.train_dataset, self.test_dataset = data_loader.load_data()
+        
+        self.model_loader = LoadModel(config["model"]["pre_trained"])
+        self.tokenizer, self.model = model_loader.load_model()
+        
         self.preprocess_dataset()
 
         self.data_collator = DataCollatorWithPadding(tokenizer=self.tokenizer)
@@ -103,6 +103,7 @@ class SentimentTrainer:
         test_dataset = test_dataset.map(lambda x: {"text": PreprocessData.preprocess(x["text"])})
 
         self.train_dataset = self.test_dataset.map(self.preprocess_function, batched=True)
+        self.train_dataset = self.train_dataset.map(self.preprocess_function, batched=True)
 
     def train(self):
         """
