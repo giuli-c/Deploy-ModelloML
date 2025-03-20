@@ -85,7 +85,7 @@ class SentimentTrainer:
         Returns:
             dict: The preprocessed examples.
         """
-        return self.tokenizer(example["text"], padding="max_length", truncation=True)
+        return self.tokenizer(examples["text"], padding="max_length", truncation=True)
     def preprocess_dataset(self):
         """
         Preprocesses the dataset.
