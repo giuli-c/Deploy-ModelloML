@@ -1,12 +1,11 @@
 from transformers import Trainer, TrainingArguments, DataCollatorWithPadding, EarlyStoppingCallback, TrainerCallback
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
-import configparser
-from datasets import load_dataset
+from huggingface_hub import login
+import os
+
 from preprocess_data import PreprocessData
 from load_config import LoadConfig
 from load_model import LoadModel
-from huggingface_hub import login
-import os
 
 class AccuracyThresholdCallback(TrainerCallback):
     def __init__(self, threshold=0.90):
@@ -20,23 +19,23 @@ class AccuracyThresholdCallback(TrainerCallback):
         return control
 
 class SentimentTrainer:
-    def __init__(self, config):
+    def __init__(self):
         self.config_loader = LoadConfig("Sentiment_Analysis/config.yaml")
-        self.config = config_loader.load_config()
+        self.config = self.config_loader.load_config()
 
         login(token=os.environ["HF_TOKEN"])
 
-        self.data_loader = DataLoader(config["dataset"])
-        self.train_dataset, self.test_dataset = data_loader.load_data()
+        self.data_loader = DataLoader(self.config["dataset"])
+        self.train_dataset, self.test_dataset = self.data_loader.load_data()
         
-        self.model_loader = LoadModel(config["model"]["pre_trained"])
-        self.tokenizer, self.model = model_loader.load_model()
+        self.model_loader = LoadModel(self.config["model"]["pre_trained"])
+        self.tokenizer, self.model = self.model_loader.load_model()
         
         self.preprocess_dataset()
 
         self.data_collator = DataCollatorWithPadding(tokenizer=self.tokenizer)
 
-        training_args = TrainingArguments(
+        self.training_args = TrainingArguments(
             output_dir=self.config["training"].get("output_dir", "./results"),
             evaluation_strategy="epoch",
             save_strategy="epoch",
@@ -58,9 +57,9 @@ class SentimentTrainer:
                 )
             )
 
-        trainer = Trainer(
+        self.trainer = Trainer(
             model=self.model,
-            args=training_args,
+            args=self.training_args,
             train_dataset=self.train_dataset,
             eval_dataset=self.test_dataset,
             tokenizer=self.tokenizer,
@@ -85,7 +84,7 @@ class SentimentTrainer:
         Returns:
             dict: The preprocessed examples.
         """
-        return tokenizer(example["text"], padding="max_length", truncation=True)
+        return self.tokenizer(example["text"], padding="max_length", truncation=True)
     def preprocess_dataset(self):
         """
         Preprocesses the dataset.
@@ -99,8 +98,8 @@ class SentimentTrainer:
             None
         """
         # Il preprocessing vero e proprio lo faccio sul Dataset HuggingFace
-        train_dataset = train_dataset.map(lambda x: {"text": PreprocessData.preprocess(x["text"])})
-        test_dataset = test_dataset.map(lambda x: {"text": PreprocessData.preprocess(x["text"])})
+        self.train_dataset = self.train_dataset.map(lambda x: {"text": PreprocessData.preprocess(x["text"])})
+        self.test_dataset = self.test_dataset.map(lambda x: {"text": PreprocessData.preprocess(x["text"])})
 
         self.train_dataset = self.test_dataset.map(self.preprocess_function, batched=True)
         self.train_dataset = self.train_dataset.map(self.preprocess_function, batched=True)
@@ -133,6 +132,6 @@ class SentimentTrainer:
 
 
 if __name__ == "__main__":
-    trainer = SentimentTrainer("config.conf")
+    trainer = SentimentTrainer()
     trainer.train()
      #trainer.push_to_hub()

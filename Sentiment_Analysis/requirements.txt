@@ -2,5 +2,5 @@ datasets
 transformers
 huggingface_hub
 scikit-learn
-configparser
 pytest
+torch
